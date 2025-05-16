@@ -126,10 +126,3 @@ Use the GUI to send messages and observe how the insecure server is vulnerable t
 * [AES-CMAC - NIST Special Publication 800-38B](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38b.pdf)([Wikipedia][1])
 
 ---
-
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
----
-
