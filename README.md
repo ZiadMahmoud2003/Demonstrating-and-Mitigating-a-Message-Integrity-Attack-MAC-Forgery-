@@ -39,6 +39,7 @@ HMAC enhances security by incorporating the key into the hashing process in a mo
 
 HMAC(key, message) = Hash((key ⊕ opad) || Hash((key ⊕ ipad) || message))
 ```
+![image](https://github.com/user-attachments/assets/67ce4597-39a8-4984-ae2b-2d26680a9678)
 
 
 
