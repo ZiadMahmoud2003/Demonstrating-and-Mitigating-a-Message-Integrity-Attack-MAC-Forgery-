@@ -117,6 +117,12 @@ pip install -r requirements.txt
 
 Use the GUI to send messages and observe how the insecure server is vulnerable to MAC forgery, while the secure server correctly identifies and rejects forged messages.
 
+![image](https://github.com/user-attachments/assets/cc0f9c91-0384-427a-8000-68b3a0f0d386)
+
+![image](https://github.com/user-attachments/assets/be96c8b7-0eaf-4a8f-b146-ca20accefea0)
+
+
+
 ---
 
 ## 📚 References
