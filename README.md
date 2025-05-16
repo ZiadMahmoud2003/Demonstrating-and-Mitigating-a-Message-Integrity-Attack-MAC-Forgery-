@@ -1,120 +1,135 @@
+---
 
-# 🔒 Demonstrating and Mitigating a Message Integrity Attack (MAC Forgery)
+# Demonstrating and Mitigating a Message Integrity Attack (MAC Forgery)
 
 ## 📌 Project Overview
-This project demonstrates a **Message Integrity Attack** through **MAC Forgery** and implements secure mitigations (HMAC, AES-CMAC) to protect cryptographic systems.
+
+This project illustrates how Message Authentication Code (MAC) forgery attacks can compromise message integrity and demonstrates effective cryptographic mitigations. By simulating real-world attack scenarios and implementing secure MAC schemes like HMAC and AES-CMAC, it provides a hands-on understanding of message integrity threats and defenses.
+
+---
+
+## 🔍 Attack Scenario: MAC Forgery
+
+The project showcases a length extension attack on an insecure MAC construction, specifically one that uses `Hash(key || message)`. In this setup, an attacker can append data to a legitimate message and generate a valid MAC without knowing the secret key.
+
+### Attack Flow Diagram
 
 ```mermaid
 flowchart TD
-    A[Weak MAC: Hash(key || message)] --> B(Attacker intercepts message + MAC)
-    B --> C[Extends message]
-    C --> D[Generates valid MAC without key]
-    D --> E[System accepts forged MAC]
-    E --> F[Data integrity compromised]
+    A[Original Message + MAC] --> B[Attacker Intercepts]
+    B --> C[Appends Malicious Data]
+    C --> D[Calculates New MAC]
+    D --> E[Forwards Forged Message + MAC]
+    E --> F[Receiver Accepts as Valid]
 ```
 
-## 🔑 Key Features
-| Feature               | Description                                                                 |
-|-----------------------|-----------------------------------------------------------------------------|
-| ⚠ **MAC Forgery Demo** | Shows how attackers forge MACs without the secret key.                      |
-| 🔓 **Vulnerable MAC**  | Implements `MAC = Hash(key || message)` (insecure).                         |
-| 🛡 **Secure MACs**     | Mitigates attacks using **HMAC-SHA256** and **AES-CMAC**.                  |
+This diagram illustrates how an attacker can exploit the MAC construction to forge messages that are accepted by the receiver.([Wikipedia][1])
 
 ---
 
-## ⚡ Attack Scenario
-### 🔴 Attack Flow
+## 🛡️ Mitigation Strategies
+
+To counteract MAC forgery attacks, the project implements two robust MAC schemes:
+
+### 1. HMAC (Hash-based Message Authentication Code)
+
+HMAC enhances security by incorporating the key into the hashing process in a more secure manner. It is defined as:([Brian Wigginton][2])
+
+```
+
+HMAC(key, message) = Hash((key ⊕ opad) || Hash((key ⊕ ipad) || message))
+```
+
+
+
+This structure prevents length extension attacks by hashing the key and message in a specific way that binds them securely.([ctftime.org][3])
+
+### 2. AES-CMAC (Cipher-based Message Authentication Code)
+
+AES-CMAC uses the AES block cipher to generate a MAC, providing strong security guarantees. It is particularly resistant to forgery attacks due to its block cipher foundation.([Wikipedia][1])
+
+### Mitigation Flow Diagram
+
 ```mermaid
-flowchart LR
-    Legit[(Legitimate\nMessage+MAC)] --> Attacker --> Forged[(Forged\nMessage+MAC)] --> Server --> Accepts[✔ Accepted!]
+flowchart TD
+    A[Message Input] --> B[Apply HMAC or AES-CMAC]
+    B --> C[Generate Secure MAC]
+    C --> D[Transmit Message + MAC]
+    D --> E[Receiver Verifies MAC]
+    E --> F[Message Accepted if MAC is Valid]
 ```
 
-1. **Weak MAC Construction**:  
-   `MAC = Hash(key || message)` → Vulnerable to length-extension attacks.
-2. **Forgery Exploit**:  
-   Attacker appends data and computes new MAC without the key.
-3. **Impact**:  
-   System accepts tampered message as valid.
+This diagram demonstrates the process of securing a message using HMAC or AES-CMAC, ensuring that any tampering is detected by the receiver.
 
 ---
 
-## 🛡 Mitigation Techniques
-### 🟢 Secure MAC Flow
-```mermaid
-flowchart LR
-    Legit[(Message)] --> HMAC/AES-CMAC --> SecureMAC[(Secure MAC)] --> Server --> Verify[✔ Valid / ❌ Rejected]
-```
+## 🧪 Project Components
 
-### 1. ✅ **HMAC (Hash-based MAC)**
-```python
-HMAC(K, m) = H((K ⊕ opad) || H((K ⊕ ipad) || m))
-```
-- Resists length-extension attacks
-- Uses SHA-256 for cryptographic strength
-
-### 2. ✅ **AES-CMAC (Cipher-based MAC)**
-- Uses AES block cipher
-- Ideal for constrained environments
+* **`client.py`**: Simulates a client sending messages with MACs.
+* **`server.py`**: Represents a server verifying MACs using insecure methods.
+* **`server_hmac.py`**: A secure server implementation using HMAC.
+* **`gui.py`**: Provides a graphical interface to interact with the client and servers.
+* **`pymd5.py`**: Contains a custom implementation of the MD5 hashing algorithm.
+* **`requirements.txt`**: Lists Python dependencies for the project.
+* **`Background_Report.pdf`**: Offers an in-depth explanation of MAC forgery attacks.
+* **`mitigation.pdf`**: Details the mitigation techniques implemented in the project.([Wikipedia][1], [stinger.io][4])
 
 ---
 
-## 📊 Security Comparison
-| Approach          | Forgery Resistance | Length-Extension Safe | Speed (ops/sec) |
-|-------------------|--------------------|-----------------------|-----------------|
-| ❌ Weak MAC       | ❌                 | ❌                    | 10,000          |
-| ✅ **HMAC**       | ✅                 | ✅                    | 8,500           |
-| ✅ **AES-CMAC**   | ✅                 | ✅                    | 6,200           |
+## 🚀 Getting Started
 
----
-
-## 📈 Performance Benchmark
-```
-HMAC-SHA256:
-██████████ 8500 ops/sec
-
-AES-CMAC:
-████████ 6200 ops/sec
-
-Weak MAC (Insecure):
-███████████ 10000 ops/sec
-```
-
----
-
-## 🚀 Usage
 ### Prerequisites
+
+* Python 3.x
+* Install required packages:([stinger.io][4])
+
 ```bash
-pip install cryptography pycryptodome
+pip install -r requirements.txt
 ```
 
-### Run Demos
-```bash
-# Clone repo
-git clone https://github.com/ZiadMahmoud2003/Demonstrating-and-Mitigating-a-Message-Integrity-Attack-MAC-Forgery-.git
-cd Demonstrating-and-Mitigating-a-Message-Integrity-Attack-MAC-Forgery-
 
-# Attack demo
-python3 mac_forgery_attack.py
 
-# Mitigation tests
-python3 hmac_mitigation.py
-python3 aes_cmac_mitigation.py
-```
+### Running the Project
+
+1. Start the insecure server:
+
+   ```bash
+   python server.py
+   ```
+
+
+
+2. Start the secure server with HMAC:([ctftime.org][3])
+
+   ```bash
+   python server_hmac.py
+   ```
+
+
+
+3. Launch the client GUI:
+
+   ```bash
+   python gui.py
+   ```
+
+
+
+Use the GUI to send messages and observe how the insecure server is vulnerable to MAC forgery, while the secure server correctly identifies and rejects forged messages.
 
 ---
 
-## 🎯 Conclusion
-| Key Takeaway                  | Recommendation                              |
-|-------------------------------|--------------------------------------------|
-| Weak MACs are easily forged   | ❌ Never use `Hash(key||message)`           |
-| HMAC/AES-CMAC provide security| ✅ Always use cryptographically secure MACs |
+## 📚 References
 
-
-
-📜 **License**: MIT  
-👨‍💻 **Author**: [Ziad Mahmoud](https://github.com/ZiadMahmoud2003)  
-🔗 **Repository**: [GitHub Link](https://github.com/ZiadMahmoud2003/Demonstrating-and-Mitigating-a-Message-Integrity-Attack-MAC-Forgery-)
+* [Message Authentication Code - Wikipedia](https://en.wikipedia.org/wiki/Message_authentication_code)
+* [HMAC - Wikipedia](https://en.wikipedia.org/wiki/HMAC)
+* [AES-CMAC - NIST Special Publication 800-38B](https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-38b.pdf)([Wikipedia][1])
 
 ---
 
-!
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
