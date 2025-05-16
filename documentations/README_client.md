@@ -77,12 +77,12 @@ Forged message: b'hello_world\x80...&admin=true'
 ## 🧩 Concept Diagram
 
 ```mermaid
-graph LR
-A[Original Message & MAC] --> B[Attacker Adds Padding]
-B --> C[Appends &admin=true]
-C --> D[Recalculates MAC with known state]
-D --> E[Forged Message + MAC]
-E --> F[Server Validates (if insecure)]
+flowchart LR
+    A[Original Message & MAC] --> B[Attacker Adds Padding]
+    B --> C[Appends '&admin=true']
+    C --> D[Recalculates MAC]
+    D --> E[Forged Message + MAC]
+    E --> F[Server Validates\n⚠️ If MAC is insecure]
 ```
 
 ---
