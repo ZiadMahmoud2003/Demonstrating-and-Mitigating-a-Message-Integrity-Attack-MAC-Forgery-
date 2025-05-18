@@ -88,14 +88,16 @@ flowchart TD
 ## 4. User Interfaces  
 
 ### Patient Dashboard  
-![Patient Interface](WhatsApp%20Image%202025-05-18%20at%206.59.42%20PM%20(2).jpeg)  
+![Patient Interface](![WhatsApp Image 2025-05-18 at 6 59 42 PM](https://github.com/user-attachments/assets/ff26a87f-8fe4-41ae-af93-545a6e6c77e5)
+)  
 - **Features**:  
   - View/Add medical records  
   - Manage doctor access permissions  
   - Public key-based access control  
 
 ### Doctor Access View  
-![Doctor Access](WhatsApp%20Image%202025-05-18%20at%206.59.41%20PM%20(2).jpeg)  
+![Doctor Access](![WhatsApp Image 2025-05-18 at 6 59 41 PM](https://github.com/user-attachments/assets/9d901a77-c72f-4efa-a417-bd7bcd477431)
+)  
 - **Key Actions**:  
   - Request record access  
   - View permitted records  
